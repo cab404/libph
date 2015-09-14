@@ -14,7 +14,7 @@ import org.apache.http.HttpResponse;
 /**
  * @author cab404
  */
-public class TabunPage extends Page {
+public class BasePage extends Page {
     /**
      * Информация о текущем пользователе.
      */

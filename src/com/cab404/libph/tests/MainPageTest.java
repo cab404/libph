@@ -13,8 +13,6 @@ public class MainPageTest extends Test {
     public void test(AccessProfile profile) {
         MainPage page = new MainPage();
         page.fetch(profile);
-
-        assertNonNull("Разум Табуна", page.quote);
     }
 
 }

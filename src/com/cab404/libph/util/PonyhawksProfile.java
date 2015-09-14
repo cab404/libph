@@ -1,6 +1,6 @@
 package com.cab404.libph.util;
 
-import com.cab404.libph.pages.TabunPage;
+import com.cab404.libph.pages.BasePage;
 import com.cab404.libph.requests.LoginRequest;
 import com.cab404.moonlight.framework.AccessProfile;
 import org.apache.http.Header;
@@ -52,8 +52,10 @@ public class PonyhawksProfile extends AccessProfile {
     }
 
     public boolean login(String name, String password) {
-        TabunPage page = new TabunPage();
-        page.fetch(this);
+        if (!cookies.containsKey(LS_KEY_ENTRY)) {
+            BasePage page = new BasePage();
+            page.fetch(this);
+        }
         return new LoginRequest(name, password).exec(this).success();
     }
 

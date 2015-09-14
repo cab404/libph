@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author cab404
  */
-public class BlogListPage extends TabunPage {
+public class BlogListPage extends BasePage {
     public int page = 1;
     public List<Blog> blogs;
 

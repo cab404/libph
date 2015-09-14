@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author cab404
  */
-public class LetterTablePage extends TabunPage {
+public class LetterTablePage extends BasePage {
     int page;
     public List<LetterLabel> letters;
 

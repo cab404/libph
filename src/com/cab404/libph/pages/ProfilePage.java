@@ -8,7 +8,7 @@ import com.cab404.moonlight.util.SU;
 /**
  * @author cab404
  */
-public class ProfilePage extends TabunPage {
+public class ProfilePage extends BasePage {
     public final String username;
     public Profile user_info;
 

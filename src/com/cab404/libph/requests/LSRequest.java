@@ -1,7 +1,7 @@
 package com.cab404.libph.requests;
 
 import com.cab404.libph.data.LivestreetKey;
-import com.cab404.libph.pages.TabunPage;
+import com.cab404.libph.pages.BasePage;
 import com.cab404.libph.util.PonyhawksProfile;
 import com.cab404.moonlight.facility.RequestBuilder;
 import com.cab404.moonlight.framework.AccessProfile;
@@ -118,7 +118,7 @@ public abstract class LSRequest extends ShortRequest {
     }
 
     @Deprecated
-    public <T extends LSRequest> T exec(AccessProfile profile, TabunPage page) {
+    public <T extends LSRequest> T exec(AccessProfile profile, BasePage page) {
         return exec(profile);
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author cab404
  */
-public class StreamPage extends TabunPage {
+public class StreamPage extends BasePage {
 
     public List<StreamItem> stream;
 

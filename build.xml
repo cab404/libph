@@ -5,7 +5,7 @@
 	<property file="build.properties"/>
 
 	<target name="def"
-	        depends="run-tests, jar-all, clean"/>
+	        depends="jar-all, clean"/>
 	<target name="clean">
 		<delete dir="${build.dir}"/>
 	</target>

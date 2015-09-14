@@ -13,7 +13,7 @@ import java.util.LinkedList;
 /**
  * @author cab404
  */
-public class TopicPage extends TabunPage {
+public class TopicPage extends BasePage {
 
     private int id;
 
@@ -50,6 +50,7 @@ public class TopicPage extends TabunPage {
 
     @Override
     public void handle(Object object, int key) {
+        super.handle(object, key);
         switch (key) {
             case BLOCK_COMMENT:
                 comments.add((Comment) object);

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author cab404
  */
-public class LetterPage extends TabunPage {
+public class LetterPage extends BasePage {
     public Letter header;
     public List<Comment> comments;
     private final int id;

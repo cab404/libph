@@ -1,7 +1,7 @@
 package com.cab404.libph.tests;
 
 import com.cab404.libph.pages.MainPage;
-import com.cab404.libph.pages.TabunPage;
+import com.cab404.libph.pages.BasePage;
 import com.cab404.libph.requests.LoginRequest;
 import com.cab404.libph.util.PonyhawksProfile;
 import com.cab404.moonlight.framework.AccessProfile;
@@ -14,8 +14,6 @@ public class LoginTest extends Test {
 
     @Override
     public void test(AccessProfile profile) {
-        profile.cookies.put("CHECK", "0");
-        profile.cookies.put("path", "/");
         MainPage page = new MainPage();
         page.fetch(profile);
 
@@ -27,7 +25,7 @@ public class LoginTest extends Test {
         assertEquals("Logged in (short form)", true, new PonyhawksProfile().login(login, password));
 
         AccessProfile copy = PonyhawksProfile.parseString(profile.serialize());
-        TabunPage test = new TabunPage();
+        BasePage test = new BasePage();
         test.fetch(copy);
 
         assertNonNull("Copied account usage", test.c_inf);
