@@ -23,6 +23,8 @@ public class ProfileTest extends Test {
         assertNonNull("Profile", info);
         assertEquals("Name", info.name, "ponyProgramist");
 
+
+
 //        assertEquals("Телефон", info.get(Profile.ContactType.PHONE).get(0), "0000000");
 //        assertEquals("E-mail", info.get(Profile.ContactType.EMAIL).get(0), "exa@mp.le");
 //        assertEquals("Twitter", info.get(Profile.ContactType.TWITTER).get(0), "example");

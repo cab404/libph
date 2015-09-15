@@ -24,6 +24,7 @@ public class CommonInfoModule extends ModuleImpl<CommonInfo> {
         } else
             info.new_messages = 0;
 
+        info.avatar = page.xPathFirstTag("div/a/img&alt=avatar").get("src");
         info.username = page.xPathStr("a&class=username");
 
         finish();
