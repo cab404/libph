@@ -18,7 +18,7 @@ public class CommonInfoModule extends ModuleImpl<CommonInfo> {
     public CommonInfo extractData(HTMLTree page, AccessProfile profile) {
         CommonInfo info = new CommonInfo();
 
-        Tag tag = page.xPathFirstTag("ul/li/a&class=new-*");
+        Tag tag = page.xPathFirstTag("div/ul/li/a/div&class=new");
         if (tag != null) {
             info.new_messages = U.parseInt(page.getContents(tag));
         } else
