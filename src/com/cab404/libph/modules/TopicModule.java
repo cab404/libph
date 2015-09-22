@@ -41,18 +41,17 @@ public class TopicModule extends ModuleImpl<Topic> {
 
         label.date = LS.parseSQLDate(page.xPathFirstTag("footer/ul/li/time").get("datetime"));
 
-
         label.author = new Profile();
-        label.author.login = page.xPathStr("header/div/a&rel=author");
+        label.author.login = page.xPathStr("footer/ul/li/a&rel=author");
 
-        if (page.xPathFirstTag("header/div/a/img") != null) {
-            label.author.small_icon = page.xPathFirstTag("header/div/a/img").get("src");
+        if (page.xPathFirstTag("footer/ul/li/a/img") != null) {
+            label.author.small_icon = page.xPathFirstTag("footer/ul/li/a/img").get("src");
             label.author.fillImages();
         } else
             label.author.is_system = true;
 
         if (mode != Mode.LETTER) {
-            for (Tag tag : page.xPath("footer/p/a"))
+            for (Tag tag : page.xPath("footer/ul&class=topic-tags*/li/a&rel=tag"))
                 label.tags.add(page.getContents(tag));
         }
 
