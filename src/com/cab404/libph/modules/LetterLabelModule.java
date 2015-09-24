@@ -1,6 +1,7 @@
 package com.cab404.libph.modules;
 
 import com.cab404.libph.data.LetterLabel;
+import com.cab404.libph.util.LS;
 import com.cab404.moonlight.framework.AccessProfile;
 import com.cab404.moonlight.framework.ModuleImpl;
 import com.cab404.moonlight.parser.HTMLTree;
@@ -26,6 +27,7 @@ public class LetterLabelModule extends ModuleImpl<LetterLabel> {
         }
 
         letter.title = SU.deEntity(page.xPathStr("td/a&class=js-title-talk"));
+        letter.text = page.xPathFirstTag("td/a&class=js-title-talk").get("title");
         String destronged_title = SU.removeAllTags(SU.deEntity(letter.title));
 
         // Если в заголовке были теги strong, значит, письмо новое. Других способов не нашел.
@@ -36,11 +38,13 @@ public class LetterLabelModule extends ModuleImpl<LetterLabel> {
 
         String comments = page.xPathStr("td/span");
         letter.comments = comments == null ? 0 : U.parseInt(comments);
+        letter.date = LS.parseDate(page.xPathStr("td&class=cell-date*"));
 
         if (comments == null) return letter;
 
         comments = page.xPathStr("td/span&class=new");
         letter.comments_new = comments == null ? 0 : U.parseInt(comments);
+
 
         return letter;
     }
