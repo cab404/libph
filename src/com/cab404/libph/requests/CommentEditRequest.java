@@ -19,7 +19,7 @@ public class CommentEditRequest extends LSRequest {
 
     @Override
     protected String getURL(AccessProfile profile) {
-        return "/role_ajax/savecomment/";
+        return "/ec_ajax/savecomment/";
     }
 
     @Override
