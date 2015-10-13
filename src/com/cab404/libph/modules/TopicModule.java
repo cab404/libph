@@ -32,7 +32,7 @@ public class TopicModule extends ModuleImpl<Topic> {
         Topic label = new Topic();
         label.text = page.xPathStr("div&class=*text").trim();
 
-        label.title = SU.removeAllTags(page.xPathStr("header/h1")).trim(); // Если header в списках - это ещё и ссылка.
+        label.title = SU.deEntity(SU.removeAllTags(page.xPathStr("header/h1")).trim()); // Если header в списках - это ещё и ссылка.
         label.id = U.parseInt(SU.bsub(page.xPathFirstTag("footer/div&class=topic-share").get("id"), "share_", ""));
 
         Tag blog = page.xPathFirstTag("header/div/a&class=topic-blog*");

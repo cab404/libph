@@ -66,6 +66,7 @@ public class Profile extends JSONable {
         ICQ("icq", "ICQ"),
         SITE("www", "Сайт"),
         TWITTER("twitter", "Твиттер"),
+        XMPP("XMPP", "XMPP"),
         FACEBOOK("facebook", "Facebook"),
         VKONTAKTE("vkontakte", "ВК"),
         ODNOKLASSNIKI("odnoklassniki", "Одноклассники"),;

@@ -28,8 +28,6 @@ public class CommentModule extends ModuleImpl<Comment> {
     public Comment extractData(HTMLTree page, AccessProfile profile) {
         Comment comment = new Comment();
 
-        comment.id = U.parseInt(page.get(0).get("id").replace("comment_id_", ""));
-
         try {
             comment.text = page.getContents(page.xPathFirstTag("section/div/div&class=*text*")).trim();
         } catch (Exception ex) {
@@ -46,6 +44,8 @@ public class CommentModule extends ModuleImpl<Comment> {
 
             HTMLTree info = page.getTree(info_block);
 
+            comment.id = U.parseInt(SU.split(page.xPathUnique("a&href=*#comment*").get("href"), "#comment").get(1));
+
             Tag parent = info.xPathFirstTag("li&class=*parent*/a");
             if (parent == null)
                 comment.parent = 0;
@@ -54,10 +54,7 @@ public class CommentModule extends ModuleImpl<Comment> {
 
             // Немножко откостылим логин.
             {
-                String kostyl = info.xPathStr("li/b");
-                kostyl = SU.sub(kostyl, "\"", "\"");
-                kostyl = SU.sub(kostyl, "profile/", "/");
-                comment.author.login = kostyl;
+                comment.author.login = SU.sub(info.xPathUnique("a&href=*profile/*/").get("href"), "profile/", "/");
             }
             if (info.xPathFirstTag("li/img&alt=avatar") == null)
                 comment.author.is_system = true;
