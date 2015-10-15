@@ -44,7 +44,7 @@ public class CommentModule extends ModuleImpl<Comment> {
 
             HTMLTree info = page.getTree(info_block);
 
-            comment.id = U.parseInt(SU.split(page.xPathUnique("a&href=*#comment*").get("href"), "#comment").get(1));
+            comment.id = U.parseInt(SU.split(info.xPathUnique("a&href=*#comment*").get("href"), "#comment").get(1));
 
             Tag parent = info.xPathFirstTag("li&class=*parent*/a");
             if (parent == null)
