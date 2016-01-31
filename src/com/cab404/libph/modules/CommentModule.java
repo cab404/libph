@@ -39,12 +39,13 @@ public class CommentModule extends ModuleImpl<Comment> {
         if (info_block == null) {
 
             comment.deleted = true;
+            comment.id = Integer.parseInt(SU.bsub(page.get(0).get("id"), "id_", ""));
 
         } else {
 
             HTMLTree info = page.getTree(info_block);
 
-            comment.id = U.parseInt(SU.split(info.xPathUnique("a&href=*#comment*").get("href"), "#comment").get(1));
+            comment.id = Integer.parseInt(SU.split(info.xPathUnique("a&href=*#comment*").get("href"), "#comment").get(1));
 
             Tag parent = info.xPathFirstTag("li&class=*parent*/a");
             if (parent == null)
