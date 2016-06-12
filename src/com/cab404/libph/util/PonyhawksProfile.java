@@ -4,6 +4,7 @@ import com.cab404.libph.pages.BasePage;
 import com.cab404.libph.requests.LoginRequest;
 import com.cab404.moonlight.framework.AccessProfile;
 import org.apache.http.Header;
+import org.apache.http.HttpHost;
 import org.json.simple.JSONObject;
 
 import static com.cab404.libph.requests.LSRequest.LS_KEY_ENTRY;
@@ -19,6 +20,7 @@ public class PonyhawksProfile extends AccessProfile {
         public void show(JSONObject parsed) {
         }
     };
+    private HttpHost host = new HttpHost("ponyhawks.ru", 443, "https");
 
     public MessageListener getMessageListener() {
         return messageListener;
@@ -29,9 +31,13 @@ public class PonyhawksProfile extends AccessProfile {
     }
 
     public PonyhawksProfile() {
-        super("ponyhawks.ru", 80);
         cookies.put("CHECK", "0");
         cookies.put("path", "/");
+    }
+
+    @Override
+    public HttpHost getHost() {
+        return host;
     }
 
     @Override
