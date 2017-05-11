@@ -26,6 +26,8 @@ public class Blog extends JSONable {
     public Calendar
             creation_date;
 
+
+
     @JSONField
     public boolean
             restricted = false;
