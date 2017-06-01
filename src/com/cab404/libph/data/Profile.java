@@ -69,6 +69,9 @@ public class Profile extends JSONable {
         XMPP("XMPP", "XMPP"),
         FACEBOOK("facebook", "Facebook"),
         VKONTAKTE("vkontakte", "ВК"),
+        DISCORD("discord", "Дискорд"),
+        STEAM("steam", "Steam"),
+        BATTLE("battle", "Battle.net"),
         ODNOKLASSNIKI("odnoklassniki", "Одноклассники"),;
 
         public String name;

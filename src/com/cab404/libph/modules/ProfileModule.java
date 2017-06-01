@@ -39,7 +39,7 @@ public class ProfileModule extends ModuleImpl<Profile> {
 
         {
             data.about = page.xPathStr("div&class=*about/div&class=text");
-//            data.big_icon = page.xPathFirstTag("div&class=*about/a&class=avatar/img").get("src");
+            data.big_icon = page.xPathUnique("img&itemprop=photo&alt=avatar").get("src");
             data.fillImages();
         }
 
