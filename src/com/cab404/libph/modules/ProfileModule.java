@@ -28,7 +28,7 @@ public class ProfileModule extends ModuleImpl<Profile> {
         }
 
         try {
-            data.login = page.xPathStr("div&class=profile/h2&itemprop=nickname");
+            data.login = page.xPathStr("div&class=profile/h2&itemprop=nickname").trim();
 
             data.name = page.xPathStr("div&class=profile/p&itemprop=name");
             data.name = data.name == null ? "" : SU.deEntity(data.name);
@@ -52,7 +52,7 @@ public class ProfileModule extends ModuleImpl<Profile> {
 
                 data.personal.add(
                         new AbstractMap.SimpleEntry<>(
-                                Profile.getDataType(key),
+                                key,
                                 SU.removeRecurringChars(
                                         value.replace('\t', ' ').replace('\n', ' ').trim(),
                                         ' '
@@ -81,7 +81,7 @@ public class ProfileModule extends ModuleImpl<Profile> {
                 String value = SU.removeAllTags(foo);
                 data.contacts.add(
                         new AbstractMap.SimpleEntry<>(
-                                Profile.getContactType(key),
+                                key,
                                 SU.removeRecurringChars(
                                         value.replace('\t', ' ').replace('\n', ' ').trim(),
                                         ' '
