@@ -29,6 +29,7 @@ public class Tests {
 		tests.add(UserAutocompleteTest.class);
 		tests.add(BlogListTest.class);
 		tests.add(TimelineTest.class);
+		tests.add(ProfileListTest.class);
 
         launcher.launch(tests);
 
