@@ -17,9 +17,9 @@ public class Profile extends JSONable {
     @JSONField
     public final ArrayList<Profile> partial_friend_list;
     @JSONField
-    public final List<Map.Entry<String, String>> personal;
+    public final List<KV<String, String>> personal;
     @JSONField
-    public final List<Map.Entry<String, String>> contacts;
+    public final List<KV<String, String>> contacts;
     @JSONField
     public boolean is_system = false;
 
@@ -32,17 +32,17 @@ public class Profile extends JSONable {
     public List<String> getContact(String type) {
         ArrayList<String> list = new ArrayList<String>();
 
-        for (Map.Entry<String, String> e : contacts)
-            if (e.getKey().equals(type))
-                list.add(e.getValue());
+        for (KV<String, String> e : contacts)
+            if (e.k.equals(type))
+                list.add(e.v);
 
         return list;
     }
 
     public String getData(String type) {
-        for (Map.Entry<String, String> e : personal)
-            if (e.getKey().equals(type))
-                return e.getValue();
+        for (KV<String, String> e : personal)
+            if (e.k.equals(type))
+                return e.v;
 
         return null;
     }

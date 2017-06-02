@@ -1,5 +1,6 @@
 package com.cab404.libph.modules;
 
+import com.cab404.libph.data.KV;
 import com.cab404.libph.data.Profile;
 import com.cab404.libph.exceptions.UserNotFoundException;
 import com.cab404.moonlight.framework.AccessProfile;
@@ -51,7 +52,7 @@ public class ProfileModule extends ModuleImpl<Profile> {
                 String value = page.getContents(values.get(i));
 
                 data.personal.add(
-                        new AbstractMap.SimpleEntry<>(
+                        new KV<>(
                                 key,
                                 SU.removeRecurringChars(
                                         value.replace('\t', ' ').replace('\n', ' ').trim(),
@@ -80,7 +81,7 @@ public class ProfileModule extends ModuleImpl<Profile> {
                 String key = SU.sub(foo, "title=\"", "\"");
                 String value = SU.removeAllTags(foo);
                 data.contacts.add(
-                        new AbstractMap.SimpleEntry<>(
+                        new KV<>(
                                 key,
                                 SU.removeRecurringChars(
                                         value.replace('\t', ' ').replace('\n', ' ').trim(),
