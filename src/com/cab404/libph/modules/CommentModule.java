@@ -66,7 +66,10 @@ public class CommentModule extends ModuleImpl<Comment> {
 
             comment.is_new = page.get(0).get("class").contains("comment-new");
 
-            comment.date = LS.parseSQLDate(info.xPathFirstTag("li/time").get("datetime"));
+            // т.к. у ip (для админов) тоже тэг time, то сначала найдем нужный нам time
+            Tag date_tag = info.xPathFirstTag("li&class=comment-date");
+            HTMLTree date_info = info.getTree(date_tag);
+            comment.date = LS.parseSQLDate(date_info.xPathFirstTag("li/time").get("datetime"));
 
             if (type != Mode.LETTER) {
                 Tag favs = info.xPathFirstTag("li/div&class=favourite*");
