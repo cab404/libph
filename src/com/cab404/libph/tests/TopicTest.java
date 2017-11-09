@@ -21,6 +21,7 @@ public class TopicTest extends Test {
 
         // Не применимо
 //        assertLessOrEquals("Все комментарии загружены", topicPage.header.comments, topicPage.comments.size());
+        assertEquals("Время создания", topicPage.header.date.getTimeInMillis(), 1361028648000L);
         assertEquals("Имя блога", topicPage.header.blog.name, "dev");
         assertEquals("URL-имя блога", topicPage.header.blog.url_name, "dev");
         assertEquals("Название поста", topicPage.header.title, "Тестовый топик [Ponyhawks]");

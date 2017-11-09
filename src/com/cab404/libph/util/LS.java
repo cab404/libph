@@ -4,6 +4,8 @@ import com.cab404.libph.data.Blog;
 import com.cab404.libph.data.PersonalBlog;
 import com.cab404.moonlight.util.SU;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.util.concurrent.TimeUnit.HOURS;
@@ -67,24 +69,17 @@ public class LS {
     }
 
     // 2014-02-12T21:20:13+04:00
-    @SuppressWarnings("MagicConstant")
+    private static final SimpleDateFormat TS_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
     public static Calendar parseSQLDate(String date) {
         Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        List<String> split = SU.split(date, "T");
-        List<String> in_year = SU.split(split.get(0), "-");
-        List<String> in_day = SU.split(split.get(1).substring(0, 8), ":");
-        String in_timezone = split.get(1).substring(8);
-
-        calendar.set(
-                Integer.parseInt(in_year.get(0)),
-                Integer.parseInt(in_year.get(1)) - 1,
-                Integer.parseInt(in_year.get(2)),
-                Integer.parseInt(in_day.get(0)),
-                Integer.parseInt(in_day.get(1)),
-                Integer.parseInt(in_day.get(2))
-        );
-        calendar.setTimeZone(TimeZone.getTimeZone("GMT+4:00"));
+        try {
+            calendar.setTime(TS_FORMAT.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+           return null;
+        }
+        calendar.setTimeZone(TimeZone.getTimeZone("GMT" + date.substring(19)));
         return calendar;
     }
 
