@@ -3,6 +3,7 @@ package com.cab404.libph.tests;
 import com.cab404.libph.data.Type;
 import com.cab404.libph.pages.TopicPage;
 import com.cab404.libph.requests.RefreshCommentsRequest;
+import com.cab404.libph.requests.SubmitPollRequest;
 import com.cab404.moonlight.framework.AccessProfile;
 import com.cab404.moonlight.util.tests.Test;
 
@@ -37,6 +38,15 @@ public class TopicTest extends Test {
         RefreshCommentsRequest request = new RefreshCommentsRequest(Type.TOPIC, 282, 0);
         request.exec(profile);
         assertLess("Refresh", 0, request.comments.size());
+
+
+        // Polls are hard to test .-.
+//        topicPage = new TopicPage(1537);
+//        topicPage.fetch(profile);
+//        SubmitPollRequest submitPollRequest = new SubmitPollRequest(1537, 0);
+//        submitPollRequest.exec(profile);
+//        System.out.println(submitPollRequest.results);
+//        System.out.println(topicPage.header.pollData);
 
     }
 

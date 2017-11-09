@@ -1,13 +1,11 @@
 package com.cab404.libph.data;
 
-import com.cab404.libph.util.JSONable;
-
 /**
  * @author cab404
  */
-public class LivestreetKey extends JSONable {
+public class LivestreetKey {
 
-    @JSONField
+
     public String key;
 
     @Deprecated

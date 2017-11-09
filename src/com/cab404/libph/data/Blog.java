@@ -1,7 +1,5 @@
 package com.cab404.libph.data;
 
-import com.cab404.libph.util.JSONable;
-
 import java.util.Calendar;
 
 /**
@@ -9,26 +7,26 @@ import java.util.Calendar;
  *
  * @author cab404
  */
-public class Blog extends JSONable {
+public class Blog {
     private static final long serialVersionUID = 0L;
 
-    @JSONField
+
     public String
             name,
             url_name,
             about,
             icon;
-    @JSONField
+
     public int
             id,
             readers;
-    @JSONField
+
     public Calendar
             creation_date;
 
 
 
-    @JSONField
+
     public boolean
             restricted = false;
 

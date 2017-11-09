@@ -1,11 +1,9 @@
 package com.cab404.libph.data;
 
-import com.cab404.libph.util.JSONable;
-
 /**
  * @author cab404
  */
-public class StreamItem extends JSONable {
+public class StreamItem {
     public static enum Type {
         VOTE_COMMENT,
         ADD_COMMENT,
@@ -17,15 +15,15 @@ public class StreamItem extends JSONable {
         VOTE_BLOG,
     }
 
-    @JSONField
+
     public Type type;
-    @JSONField
+
     public Profile user;
 
-    @JSONField
+
     public String date;
 
-    @JSONField
+
     public String link, data;
 
 }

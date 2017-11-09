@@ -1,13 +1,11 @@
 package com.cab404.libph.data;
 
-import com.cab404.libph.util.JSONable;
-
 /**
  * @author cab404
  */
-public class CommonInfo extends JSONable {
-    @JSONField
+public class CommonInfo {
+
     public String username, avatar;
-    @JSONField
+
     public int new_messages;
 }

@@ -18,4 +18,8 @@ public class KV<K, V> {
         this.v = v;
     }
 
+    @Override
+    public String toString() {
+        return k + ":" + v;
+    }
 }

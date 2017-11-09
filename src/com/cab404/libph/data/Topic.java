@@ -1,7 +1,5 @@
 package com.cab404.libph.data;
 
-import com.cab404.libph.util.JSONable;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -10,30 +8,34 @@ import java.util.List;
 /**
  * @author cab404
  */
-public class Topic extends JSONable {
+public class Topic {
     private static final long serialVersionUID = 0L;
 
-    @JSONField
+
     public String title;
-    @JSONField
+
     public Profile author;
-    @JSONField
+
     public Blog blog;
 
-    @JSONField
+
     public String text;
-    @JSONField
+
     public List<String> tags;
 
-    @JSONField
+
     public Calendar date;
-    @JSONField
+
     public int id;
 
-    @JSONField
+
     public boolean in_favourites = false;
 
-    @JSONField
+    public boolean is_poll = false;
+    public boolean is_pollFinished = false;
+
+    public List<KV<String, Integer>> pollData;
+
     public int comments = 0, comments_new = 0;
 
     public Topic() {

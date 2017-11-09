@@ -1,26 +1,23 @@
 package com.cab404.libph.data;
 
-import com.cab404.libph.util.JSONable;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author cab404
  */
-public class Profile extends JSONable {
-    @JSONField
+public class Profile {
+
     public String name, login, about, small_icon, mid_icon, big_icon, photo;
-    @JSONField
+
     public Integer id;
-    @JSONField
+
     public final ArrayList<Profile> partial_friend_list;
-    @JSONField
+
     public final List<KV<String, String>> personal;
-    @JSONField
+
     public final List<KV<String, String>> contacts;
-    @JSONField
+
     public boolean is_system = false;
 
     public Profile() {

@@ -7,6 +7,8 @@ import com.cab404.libph.util.PonyhawksProfile;
 import com.cab404.moonlight.framework.AccessProfile;
 import com.cab404.moonlight.util.tests.Test;
 
+import java.io.*;
+
 /**
  * @author cab404
  */
@@ -18,8 +20,14 @@ public class LoginTest extends Test {
         page.fetch(profile);
 
         String login, password;
-        login = requestString("login");
-        password = requestPassword("pwd");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(new File("credentials.txt")));
+            login = reader.readLine();
+            password = reader.readLine();
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         assertEquals("Logged in (long form)", true, new LoginRequest(login, password).exec(profile, page).success());
         assertEquals("Logged in (short form)", true, new PonyhawksProfile().login(login, password));

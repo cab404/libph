@@ -1,5 +1,6 @@
 package com.cab404.libph.modules;
 
+import com.cab404.libph.data.KV;
 import com.cab404.libph.data.Profile;
 import com.cab404.libph.data.Topic;
 import com.cab404.libph.util.LS;
@@ -9,6 +10,9 @@ import com.cab404.moonlight.parser.HTMLTree;
 import com.cab404.moonlight.parser.Tag;
 import com.cab404.moonlight.util.SU;
 import com.cab404.moonlight.util.U;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Парсер заголовков топиков.
@@ -27,10 +31,48 @@ public class TopicModule extends ModuleImpl<Topic> {
         this.mode = mode;
     }
 
+    public static List<KV<String, Integer>> parsePollResults(HTMLTree from) {
+        List<Tag> keys = from.xPath("li/dl/dd");
+        List<Tag> values = from.xPath("li/dl/dt/span");
+        List<KV<String, Integer>> results = new LinkedList<>();
+
+        for (int i = 0; i < Math.min(values.size(), keys.size()); i++) {
+            String key = from.getContents(keys.get(i));
+            String value = from.getContents(values.get(i));
+            results.add(new KV<>(
+                    SU.removeAllTags(key).trim(),
+                    Integer.parseInt(SU.sub(value, "(", ")"))
+            ));
+        }
+
+        return results;
+    }
+
     @Override
     public Topic extractData(HTMLTree page, AccessProfile profile) {
+
         Topic label = new Topic();
         label.text = page.xPathStr("div&class=*text").trim();
+
+
+        label.is_poll = page.get(0).props.get("class").contains("topic-type-question");
+        if (label.is_poll) {
+            HTMLTree poll = page.getTree(page.xPathUnique("div&class=poll"));
+
+            Tag resultStart = poll.xPathUnique("ul&class=poll-result");
+            label.is_pollFinished = resultStart != null;
+
+            if (label.is_pollFinished) {
+                label.pollData = parsePollResults(poll.getTree(resultStart));
+            } else {
+                label.pollData = new LinkedList<>();
+                for (Tag tag : poll.xPath("ul&class=poll-vote/li/label")) {
+                    label.pollData.add(new KV<>(SU.removeAllTags(poll.getContents(tag)).trim(), -1));
+                }
+            }
+
+        }
+
 
         label.title = SU.deEntity(SU.removeAllTags(page.xPathStr("header/h1")).trim()); // Если header в списках - это ещё и ссылка.
         label.id = U.parseInt(SU.bsub(page.xPathFirstTag("footer/div&class=topic-share").get("id"), "share_", ""));
