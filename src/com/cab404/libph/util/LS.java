@@ -69,18 +69,18 @@ public class LS {
     }
 
     // 2014-02-12T21:20:13+04:00
-    private static final SimpleDateFormat TS_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private static final SimpleDateFormat TS_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
     public static Calendar parseSQLDate(String date) {
-        Calendar calendar = Calendar.getInstance();
         try {
-            calendar.setTime(TS_FORMAT.parse(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-           return null;
+            Calendar calendar = Calendar.getInstance();
+            StringBuilder builder = new StringBuilder(date);
+            builder.deleteCharAt(22);
+            calendar.setTime(TS_FORMAT.parse(builder.toString()));
+            return calendar;
+        } catch (Exception e) {
+            return null;
         }
-        calendar.setTimeZone(TimeZone.getTimeZone("GMT" + date.substring(19)));
-        return calendar;
     }
 
 
