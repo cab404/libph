@@ -93,7 +93,7 @@ public class TopicModule extends ModuleImpl<Topic> {
             label.author.is_system = true;
 
         if (mode != Mode.LETTER) {
-            for (Tag tag : page.xPath("footer/ul&class=topic-tags*/li/a&rel=tag"))
+            for (Tag tag : page.xPath("header/ul&class=topic-tags*/li/a&rel=tag"))
                 label.tags.add(page.getContents(tag));
         }
 
