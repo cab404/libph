@@ -68,7 +68,9 @@ public class CommentModule extends ModuleImpl<Comment> {
 
             comment.is_new = page.get(0).get("class").contains("comment-new");
 
-            comment.ip = page.getContents(bottom.xPathFirstTag("div&class=comment-date/a"));
+            Tag ip = bottom.xPathFirstTag("div&class=comment-date/a");
+            if(ip != null)
+                comment.ip = page.getContents(ip);
             comment.date = LS.parseSQLDate(bottom.xPathFirstTag("div&class=comment-date/time").get("datetime"));
 
             if (type != Mode.LETTER) {
