@@ -30,7 +30,7 @@ public class LoginTest extends Test {
         }
 
         assertEquals("Logged in (long form)", true, new LoginRequest(login, password).exec(profile, page).success());
-        assertEquals("Logged in (short form)", true, new PonyhawksProfile().login(login, password));
+        assertEquals("Logged in (short form)", true, ((PonyhawksProfile)profile).login(login, password));
 
         AccessProfile copy = PonyhawksProfile.parseString(profile.serialize());
         BasePage test = new BasePage();

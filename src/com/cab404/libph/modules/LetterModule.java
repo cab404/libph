@@ -19,16 +19,16 @@ public class LetterModule extends ModuleImpl<Letter> {
 
         letter.title = SU.deEntity(page.xPathStr("header/h1").trim());
         letter.text = SU.deEntity(page.xPathStr("div&class=*text*").trim());
-        letter.date = LS.parseSQLDate(page.xPathFirstTag("footer/ul/li&class=topic-info-date/time").get("datetime"));
+        letter.date = LS.parseSQLDate(page.xPathFirstTag("header/div&class=topic-info-date/time").get("datetime"));
 
-        for (Tag tag : page.xPath("div/header/a&class=username*"))
+        for (Tag tag : page.xPath("div/header/a&class=user*"))
             letter.recipients.add(SU.deEntity(page.getContents(tag)));
 
-        letter.starter.login = SU.deEntity(page.xPathStr("footer/ul/li/a&rel=author"));
-        letter.starter.small_icon = page.xPathFirstTag("footer/ul/li/a/img").get("src");
+        letter.starter.login = SU.deEntity(page.xPathStr("footer/ul/div/a&rel=author"));
+        letter.starter.small_icon = page.xPathFirstTag("footer/ul/div/a/img").get("src");
         letter.starter.fillImages();
 
-        letter.id = Integer.parseInt(SU.bsub(page.xPathFirstTag("footer/ul/li/i&id=fav_topic_*").get("id"), "_", ""));
+        letter.id = Integer.parseInt(SU.bsub(page.xPathFirstTag("footer/ul/li&class=topic-info-favourite/a&id=fav_topic_*").get("id"), "_", ""));
 
         return letter;
     }

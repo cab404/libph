@@ -17,28 +17,23 @@ public class BlogModule extends ModuleImpl<Blog> {
 
     @Override
     public Blog extractData(HTMLTree page, AccessProfile profile) {
-        if (blog.name == null) {
-            // Для того, чтобы не парится с убиранием тегов.
-            blog.name = page.html.subSequence(page.get(1).end, page.get(2).start).toString().trim();
-            // Метка закрытого блога.
-            blog.restricted = page.xPathFirstTag("h2/i") != null;
-            // Продолжим позже.
-            return null;
-        } else {
-            blog.about = page.xPathStr("div/div/p&class=blog-description").trim();
-            blog.creation_date = LS.parseDate(page.xPathStr("div/div/ul/li/strong"));
-            blog.url_name = SU.sub(page.xPathFirstTag("div/div/ul/li/span/a").get("href"), "blog/", "/users");
+        blog.name = page.xPathStr("div&class=blog-mini/button").trim();
+        //blog.restricted = page.xPathFirstTag("h2/i") != null;
 
+        blog.about = page.xPathStr("div&class=blog/div&class=blog-inner/div&class=blog-content/p&class=blog-description").trim();
+        String t=page.xPathStr("div&class=blog/div&class=blog-inner/div&class=blog-content/ul/li/strong");
+        blog.creation_date = LS.parseDate(page.xPathStr("div&class=blog/div&class=blog-inner/div&class=blog-content/ul/li/strong"));
+        blog.url_name = SU.sub(page.xPathFirstTag("div&class=blog/div&class=blog-inner/div&class=blog-content/ul/li/span/a").get("href"), "blog/", "/users");
+
+        try {
+            blog.id = U.parseInt(SU.bsub(page.xPathFirstTag("div&class=blog/footer/button&id=button-blog-*").get("id"), "-", ""));
+        } catch (NullPointerException e) {
             try {
-                blog.id = U.parseInt(SU.bsub(page.xPathFirstTag("footer&id=blog-footer/button&id=button-blog-*").get("id"), "-", ""));
-            } catch (NullPointerException e) {
-                try {
-                    /* Значит мы имеем дело с дыратором/админом блога. Будем доставать по-иному */
-                    blog.id = U.parseInt(SU.sub(page.xPathFirstTag("div/div/ul/li/a&class=edit").get("href"), "edit/", "/"));
-                } catch (NullPointerException ex) {
-					/* Значит нифига это не админ, а незалогиненый юзер. Нунафиг. */
-                    blog.id = -1;
-                }
+                /* Значит мы имеем дело с дыратором/админом блога. Будем доставать по-иному */
+                blog.id = U.parseInt(SU.sub(page.xPathFirstTag("div&class=blog/footer/ul/li&class=blog-info-edit/a").get("href"), "edit/", "/"));
+            } catch (NullPointerException ex) {
+                /* Значит нифига это не админ, а незалогиненый юзер. Нунафиг. */
+                blog.id = -1;
             }
         }
 
@@ -47,7 +42,6 @@ public class BlogModule extends ModuleImpl<Blog> {
 
     @Override
     public boolean doYouLikeIt(Tag tag) {
-        return ("div".equals(tag.name) && ("blog-top".equals(tag.get("class")) || "blog".equals(tag.get("id"))));
+        return ("div".equals(tag.name) && "content-wrapper".equals(tag.get("id")) && "main".equals(tag.get("role")));
     }
-
 }

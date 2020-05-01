@@ -19,19 +19,16 @@ public class UserListModule extends ModuleImpl<List<Profile>> {
     @Override
     public List<Profile> extractData(HTMLTree htmlTree, AccessProfile accessProfile) {
         ArrayList<Profile> profiles = new ArrayList<>();
-        List<Tag> tags = htmlTree.xPath("table/tbody/tr");
-        for (int i = 1; i < tags.size(); i++) {
+        List<Tag> tags = htmlTree.xPath("div&class=user-item");
+        for (int i = 0; i < tags.size(); i++) {
             HTMLTree tr = htmlTree.getTree(tags.get(i));
             Profile profile = new Profile();
-            profile.login = tr.xPathStr("tr/td/div/p&class=*username*/a");
-            Tag iconTag = tr.xPathUnique("img&alt=avatar");
+            profile.login = tr.xPathStr("a/div&class=user-item-username");
+            Tag iconTag = tr.xPathUnique("img&class=user-item-avatar");
             if (iconTag != null)
                 profile.mid_icon = iconTag.get("src");
             else
                 profile.is_system = true;
-            profile.name = tr.xPathStr("tr/td/div/p&class=*realname*");
-            if (profile.name != null)
-                profile.name = profile.name.trim();
             profile.fillImages();
             profiles.add(profile);
         }
@@ -40,6 +37,6 @@ public class UserListModule extends ModuleImpl<List<Profile>> {
 
     @Override
     public boolean doYouLikeIt(Tag tag) {
-        return "table".equals(tag.name) && tag.get("class").contains("table-users");
+        return "div".equals(tag.name) && "users-list".equals(tag.get("class"));
     }
 }

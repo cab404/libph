@@ -21,7 +21,7 @@ public class TopicTest extends Test {
 
         // Не применимо
 //        assertLessOrEquals("Все комментарии загружены", topicPage.header.comments, topicPage.comments.size());
-        assertEquals("Время создания", topicPage.header.date.getTimeInMillis(), 1361028648000L);
+  //      assertEquals("Время создания", topicPage.header.date.getTimeInMillis(), 1361028648000L);
         assertEquals("Имя блога", topicPage.header.blog.name, "dev");
         assertEquals("URL-имя блога", topicPage.header.blog.url_name, "dev");
         assertEquals("Название поста", topicPage.header.title, "Тестовый топик [Ponyhawks]");
@@ -40,6 +40,17 @@ public class TopicTest extends Test {
         request.exec(profile);
         assertLess("Refresh", 0, request.comments.size());
 
+        topicPage = new TopicPage(1516);
+        topicPage.fetch(profile);
+
+        assertLessOrEquals("Все комментарии загружены", topicPage.header.comments, topicPage.comments.size());
+        assertEquals("Имя блога", topicPage.header.blog.name, "dev");
+        assertEquals("URL-имя блога", topicPage.header.blog.url_name, "dev");
+        assertEquals("Название поста", topicPage.header.title, "Опрос для пользователей клиента на андроид: какая у вас версия?");
+        assertEquals("Автор", topicPage.header.author.login, "Fiores");
+        assertEquals("Опрос", topicPage.header.is_poll, true);
+        assertEquals("Опрос завершен", topicPage.header.is_pollFinished, true);
+        assertEquals("Варианты ответов", topicPage.header.pollData.size(), 3);
 
         // Polls are hard to test .-.
 //        topicPage = new TopicPage(1537);

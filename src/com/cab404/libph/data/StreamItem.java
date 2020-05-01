@@ -24,6 +24,6 @@ public class StreamItem {
     public String date;
 
 
-    public String link, data;
+    public String link, data, more_data;
 
 }
