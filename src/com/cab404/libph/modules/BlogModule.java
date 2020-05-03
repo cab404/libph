@@ -21,12 +21,11 @@ public class BlogModule extends ModuleImpl<Blog> {
         //blog.restricted = page.xPathFirstTag("h2/i") != null;
 
         blog.about = page.xPathStr("div&class=blog/div&class=blog-inner/div&class=blog-content/p&class=blog-description").trim();
-        String t=page.xPathStr("div&class=blog/div&class=blog-inner/div&class=blog-content/ul/li/strong");
         blog.creation_date = LS.parseDate(page.xPathStr("div&class=blog/div&class=blog-inner/div&class=blog-content/ul/li/strong"));
         blog.url_name = SU.sub(page.xPathFirstTag("div&class=blog/div&class=blog-inner/div&class=blog-content/ul/li/span/a").get("href"), "blog/", "/users");
 
         try {
-            blog.id = U.parseInt(SU.bsub(page.xPathFirstTag("div&class=blog/footer/button&id=button-blog-*").get("id"), "-", ""));
+            blog.id = U.parseInt(SU.sub(page.xPathFirstTag("div&class=blog/footer/ul/li&class=blog-info-join*/a").get("onclick"), "ls.blog.toggleJoinmini(this, ", "); return false;"));
         } catch (NullPointerException e) {
             try {
                 /* Значит мы имеем дело с дыратором/админом блога. Будем доставать по-иному */
