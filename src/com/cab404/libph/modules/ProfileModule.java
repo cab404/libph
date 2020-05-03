@@ -45,8 +45,8 @@ public class ProfileModule extends ModuleImpl<Profile> {
         }
 
         {
-            List<Tag> keys = page.xPath("div&class=wrapper/div&class=*left/ul/li/span");
-            List<Tag> values = page.xPath("div&class=wrapper/div&class=*left/ul/li/strong");
+            List<Tag> keys = page.xPath("div/div/div&class=*-left/ul/li/span");
+            List<Tag> values = page.xPath("div/div/div&class=*-left/ul/li/strong");
             for (int i = 0; i < keys.size(); i++) {
                 String key = SU.sub(page.getContents(keys.get(i)), "", ":");
                 String value = page.getContents(values.get(i));
@@ -62,7 +62,7 @@ public class ProfileModule extends ModuleImpl<Profile> {
                 );
             }
 
-            List<Tag> friends = page.xPath("div&class=wrapper/div&class=*left/ul&class=user-list-avatar/li/a");
+            List<Tag> friends = page.xPath("div/div/div&class=*-left/ul&class=user-list-avatar/li/a");
             for (Tag tag : friends) {
                 Profile friend = new Profile();
                 friend.login = SU.sub(tag.get("href"), "profile/", "/");
@@ -74,7 +74,7 @@ public class ProfileModule extends ModuleImpl<Profile> {
         }
 
         {
-            List<Tag> liList = page.xPath("div&class=wrapper/div&class=*right/ul/li");
+            List<Tag> liList = page.xPath("div/div/div&class=*right/ul/li");
             for (Tag tag : liList) {
                 String foo = page.getContents(tag);
                 // Да, довольно криво, но так быстрее.
