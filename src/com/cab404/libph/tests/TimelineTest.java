@@ -15,7 +15,7 @@ public class TimelineTest extends Test {
         TimelineRequest request = new TimelineRequest();
         request.exec(profile);
 
-        assertEquals("Size of timeline", request.timeline.size(), 15);
+        assertEquals("Size of timeline", request.timeline.size(), 20);
 
     }
 

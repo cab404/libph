@@ -26,6 +26,7 @@ public class TopicTest extends Test {
         assertEquals("URL-имя блога", topicPage.header.blog.url_name, "dev");
         assertEquals("Название поста", topicPage.header.title, "Тестовый топик [Ponyhawks]");
         assertEquals("Автор", topicPage.header.author.login, "System Pony");
+        assertEquals("Аватар автора", topicPage.header.author.small_icon, null);
 
         topicPage = new TopicPage(282);
         topicPage.fetch(profile);
@@ -35,6 +36,7 @@ public class TopicTest extends Test {
         assertEquals("URL-имя блога", topicPage.header.blog.url_name, "Ponyhawks");
         assertEquals("Название поста", topicPage.header.title, "Двести двадцать первый немного припозднившийся чат Полуночников [Ponyhawks]");
         assertEquals("Автор", topicPage.header.author.login, "Grave_Hunter");
+        assertNonNull("Аватар автора", topicPage.header.author.small_icon);
 
         RefreshCommentsRequest request = new RefreshCommentsRequest(Type.TOPIC, 282, 0);
         request.exec(profile);

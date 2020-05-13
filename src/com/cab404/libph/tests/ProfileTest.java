@@ -32,7 +32,7 @@ public class ProfileTest extends Test {
 //        assertEquals("Одноклассники", info.get(Profile.ContactType.ODNOKLASSNIKI).get(0), "example");
 //        assertEquals("Сайт", info.get(Profile.ContactType.SITE).get(0), "example.com");
 //
-         assertEquals("День рождения", info.getData("День рождения"), "27 февраля 1997");
+         assertEquals("Дата рождения", info.getData("Дата рождения"), "27 февраля 1997");
          assertEquals("Пол", info.getData("Пол"), "женский");
 //
 //        assertEquals("Фото", info.photo, "http://tabun.everypony.ru/templates/skin/synio/images/user_photo_female.png");

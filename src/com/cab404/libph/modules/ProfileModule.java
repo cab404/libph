@@ -29,9 +29,9 @@ public class ProfileModule extends ModuleImpl<Profile> {
         }
 
         try {
-            data.login = page.xPathStr("div&class=profile/h2&itemprop=nickname").trim();
+            data.login = page.xPathStr("div/div&class=profile/h2&itemprop=nickname/button").trim();
 
-            data.name = page.xPathStr("div&class=profile/p&itemprop=name");
+            data.name = page.xPathStr("div/div&class=profile/p&itemprop=name");
             data.name = data.name == null ? "" : SU.deEntity(data.name);
 
         } catch (Exception e) {
@@ -39,8 +39,8 @@ public class ProfileModule extends ModuleImpl<Profile> {
         }
 
         {
-            data.about = page.xPathStr("div&class=*about/div&class=text");
-            data.big_icon = page.xPathUnique("img&itemprop=photo&alt=avatar").get("src");
+            data.about = page.xPathStr("div/div&class=*about/div&class=text");
+            data.big_icon = page.xPathFirstTag("div/div&class=*about/div&class=avatar/img").get("src");
             data.fillImages();
         }
 

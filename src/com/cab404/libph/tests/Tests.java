@@ -28,8 +28,9 @@ public class Tests {
         //tests.add(StreamTest.class);
 		//tests.add(UserAutocompleteTest.class);
 		//tests.add(BlogListTest.class);
-		tests.add(TimelineTest.class);
-		tests.add(ProfileListTest.class);
+		//tests.add(TimelineTest.class);
+		//tests.add(ProfileListTest.class);
+        tests.add(BasePageTest.class);
 
         launcher.launch(tests);
 

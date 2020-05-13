@@ -86,8 +86,8 @@ public class TopicModule extends ModuleImpl<Topic> {
         label.author = new Profile();
         label.author.login = page.xPathStr("footer/ul/div/a&rel=author");
 
-        if (page.xPathFirstTag("footer/ul/li/a/img") != null) {
-            label.author.small_icon = page.xPathFirstTag("footer/ul/li/a/img").get("src");
+        if (page.xPathFirstTag("footer/ul/div/a/img") != null) {
+            label.author.small_icon = page.xPathFirstTag("footer/ul/div/a/img").get("src");
             label.author.fillImages();
         } else
             label.author.is_system = true;

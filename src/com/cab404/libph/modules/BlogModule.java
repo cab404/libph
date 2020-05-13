@@ -17,19 +17,19 @@ public class BlogModule extends ModuleImpl<Blog> {
 
     @Override
     public Blog extractData(HTMLTree page, AccessProfile profile) {
-        blog.name = page.xPathStr("div&class=blog-mini/button").trim();
+        blog.name = page.xPathStr("div/div&class=blog-mini/button").trim();
         //blog.restricted = page.xPathFirstTag("h2/i") != null;
 
-        blog.about = page.xPathStr("div&class=blog/div&class=blog-inner/div&class=blog-content/p&class=blog-description").trim();
-        blog.creation_date = LS.parseDate(page.xPathStr("div&class=blog/div&class=blog-inner/div&class=blog-content/ul/li/strong"));
-        blog.url_name = SU.sub(page.xPathFirstTag("div&class=blog/div&class=blog-inner/div&class=blog-content/ul/li/span/a").get("href"), "blog/", "/users");
+        blog.about = page.xPathStr("div/div&class=blog/div&class=blog-inner/div&class=blog-content/p&class=blog-description").trim();
+        blog.creation_date = LS.parseDate(page.xPathStr("div/div&class=blog/div&class=blog-inner/div&class=blog-content/ul/li/strong"));
+        blog.url_name = SU.sub(page.xPathFirstTag("div/div&class=blog/div&class=blog-inner/div&class=blog-content/ul/li/span/a").get("href"), "blog/", "/users");
 
         try {
-            blog.id = U.parseInt(SU.sub(page.xPathFirstTag("div&class=blog/footer/ul/li&class=blog-info-join*/a").get("onclick"), "ls.blog.toggleJoinmini(this, ", "); return false;"));
+            blog.id = U.parseInt(SU.sub(page.xPathFirstTag("div/div&class=blog/footer/ul/li&class=blog-info-join*/a").get("onclick"), "ls.blog.toggleJoinmini(this, ", "); return false;"));
         } catch (NullPointerException e) {
             try {
                 /* Значит мы имеем дело с дыратором/админом блога. Будем доставать по-иному */
-                blog.id = U.parseInt(SU.sub(page.xPathFirstTag("div&class=blog/footer/ul/li&class=blog-info-edit/a").get("href"), "edit/", "/"));
+                blog.id = U.parseInt(SU.sub(page.xPathFirstTag("div/div&class=blog/footer/ul/li&class=blog-info-edit/a").get("href"), "edit/", "/"));
             } catch (NullPointerException ex) {
                 /* Значит нифига это не админ, а незалогиненый юзер. Нунафиг. */
                 blog.id = -1;

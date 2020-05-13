@@ -29,6 +29,7 @@ public class TestNewDesign {
         tests.add(BlogListTest.class);
         tests.add(TimelineTest.class);
         tests.add(ProfileListTest.class);
+        tests.add(BasePageTest.class);
 
         launcher.launch(tests);
 

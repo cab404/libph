@@ -73,9 +73,14 @@ public class PonyhawksProfile extends AccessProfile {
         return new LoginRequest(name, password).exec(this).success();
     }
 
+    private HttpHost getSuperHost(){
+        return super.getHost();
+    }
+
     public static PonyhawksProfile parseString(String s) {
         PonyhawksProfile _return = new PonyhawksProfile();
         _return.setUpFromString(s);
+        _return.host = _return.getSuperHost();
         return _return;
     }
 
