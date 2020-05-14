@@ -12,28 +12,25 @@ import java.util.ArrayList;
  */
 public class Tests {
 
-    public static void main(String[] args)
-            throws FileNotFoundException {
+    public static void main(String[] args) {
         TestLauncher launcher = new TestLauncher(new PonyhawksProfile());
 
         ArrayList<Class<? extends Test>> tests = new ArrayList<>();
 
         tests.add(LoginTest.class);
-        //tests.add(ProfileTest.class);
-        //tests.add(CommentListTest.class);
-        //tests.add(TopicTest.class);
-        //tests.add(ErrorTest.class);
-		//tests.add(LetterTest.class);
-		//tests.add(BlogTest.class);
-        //tests.add(StreamTest.class);
-		//tests.add(UserAutocompleteTest.class);
-		//tests.add(BlogListTest.class);
-		//tests.add(TimelineTest.class);
-		//tests.add(ProfileListTest.class);
+        tests.add(ProfileTest.class);
+        tests.add(CommentListTest.class);
+        tests.add(TopicTest.class);
+        tests.add(ErrorTest.class);
+        tests.add(LetterTest.class);
+        tests.add(BlogTest.class);
+        tests.add(StreamTest.class);
+        tests.add(UserAutocompleteTest.class);
+        tests.add(BlogListTest.class);
+        tests.add(TimelineTest.class);
+        tests.add(ProfileListTest.class);
         tests.add(BasePageTest.class);
 
         launcher.launch(tests);
-
     }
-
 }
