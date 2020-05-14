@@ -17,16 +17,17 @@ public class LetterLabelModule extends ModuleImpl<LetterLabel> {
     @Override
     public LetterLabel extractData(HTMLTree page, AccessProfile profile) {
 
+        String title = page.xPathStr("td/a&class=js-title-talk");
         // Пропускаем заголовок списка.
-        if (!"td".equals(page.get(1).name)) return null;
+        if (title == null) return null;
 
         LetterLabel letter = new LetterLabel();
 
-        for (Tag user : page.xPath("td/a&class=*username*")) {
+        for (Tag user : page.xPath("td/a&class=*user*")) {
             letter.recipients.add(page.getContents(user));
         }
 
-        letter.title = SU.deEntity(page.xPathStr("td/a&class=js-title-talk"));
+        letter.title = SU.deEntity(title);
         letter.text = page.xPathFirstTag("td/a&class=js-title-talk").get("title");
         String destronged_title = SU.removeAllTags(SU.deEntity(letter.title));
 

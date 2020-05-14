@@ -20,7 +20,8 @@ public class PonyhawksProfile extends AccessProfile {
         public void show(JSONObject parsed) {
         }
     };
-    private HttpHost host = new HttpHost("ponyhawks.ru", 443, "https");
+
+    private HttpHost host;
 
     public MessageListener getMessageListener() {
         return messageListener;
@@ -33,6 +34,13 @@ public class PonyhawksProfile extends AccessProfile {
     public PonyhawksProfile() {
         cookies.put("CHECK", "0");
         cookies.put("path", "/");
+        host = new HttpHost("ponyhawks.ru", 443, "https");
+    }
+
+    public PonyhawksProfile(String hostname, int port, String scheme) {
+        cookies.put("CHECK", "0");
+        cookies.put("path", "/");
+        host = new HttpHost(hostname, port, scheme);
     }
 
     @Override
@@ -65,9 +73,14 @@ public class PonyhawksProfile extends AccessProfile {
         return new LoginRequest(name, password).exec(this).success();
     }
 
+    private HttpHost getSuperHost(){
+        return super.getHost();
+    }
+
     public static PonyhawksProfile parseString(String s) {
         PonyhawksProfile _return = new PonyhawksProfile();
         _return.setUpFromString(s);
+        _return.host = _return.getSuperHost();
         return _return;
     }
 

@@ -17,13 +17,11 @@ public class LetterTest extends Test {
         LetterTablePage letters = new LetterTablePage(1);
         letters.fetch(profile);
 
-        LetterPage page = new LetterPage(195);
+        LetterPage page = new LetterPage(2135);
         page.fetch(profile);
 
-        assertEquals("Участники", page.header.recipients.toArray(), new String[]{"cab404", "Fiores"});
-        assertEquals("Название", page.header.title, "Адрес для открытки");
-//        assertEquals("Текст", page.header.text, "Это будет чистое и красивое тестовое письмо.");
-//        assertEquals("Первый комментарий", page.comments.get(0).text, "— Upstream-ish stuff.");
+        assertEquals("Участники", page.header.recipients.toArray(), new String[]{"Fiores", "ph"});
+        assertEquals("Название", page.header.title, "Активность");
     }
 
 }

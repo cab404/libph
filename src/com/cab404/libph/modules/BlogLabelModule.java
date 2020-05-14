@@ -17,31 +17,21 @@ public class BlogLabelModule extends ModuleImpl<Blog> {
     public Blog extractData(HTMLTree page, AccessProfile profile) {
         Blog blog = new Blog();
 
-        if ("th".equals(page.get(1).name)) {
-            return null;
-        }
+        blog.name = page.xPathStr("a&class=blog-item-name");
+        blog.url_name = SU.bsub(page.xPathFirstTag("a&class=blog-item-name").get("href"), "/blog/", "/");
 
-        blog.name = page.xPathStr("td/p/a");
-        blog.url_name = SU.bsub(page.xPathFirstTag("td/p/a").get("href"), "/blog/", "/");
+        blog.readers = U.parseInt(page.xPathStr("div/span&id=blog_user_count*"));
 
-        blog.readers = U.parseInt(
-                page.xPathStr("td&class=*readers*")
-        );
-
-        blog.id = U.parseInt(
-                SU.sub(
-                        page.xPathFirstTag("td&class=cell-info/a").get("onclick"),
-                        "showInfoBlog(this,",
-                        ")"
-                )
-        );
+        String id = page.xPathFirstTag("div/span&id=blog_user_count*").get("id");
+        id = id.replace("blog_user_count_","");
+        blog.id = U.parseInt(id);
 
         return blog;
     }
 
     @Override
     public boolean doYouLikeIt(Tag tag) {
-        return "tr".equals(tag.name);
+        return "div".equals(tag.name) && "blog-item".equals(tag.get("class"));
     }
 
 }

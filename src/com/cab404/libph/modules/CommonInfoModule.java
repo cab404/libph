@@ -18,14 +18,14 @@ public class CommonInfoModule extends ModuleImpl<CommonInfo> {
     public CommonInfo extractData(HTMLTree page, AccessProfile profile) {
         CommonInfo info = new CommonInfo();
 
-        Tag tag = page.xPathFirstTag("div/ul/li/a/div&class=new");
+        Tag tag = page.xPathFirstTag("div&class=user-menu-trigger/div&class=message-counter");
         if (tag != null) {
             info.new_messages = U.parseInt(page.getContents(tag));
         } else
             info.new_messages = 0;
 
-        info.avatar = page.xPathFirstTag("div/a/img&alt=avatar").get("src");
-        info.username = page.xPathStr("a&class=username");
+        info.avatar = page.xPathFirstTag("div&class=user-menu-trigger/img&class=user-menu-avatar").get("src");
+        info.username = page.xPathStr("div&class=user-menu/div&class=user-menu-name");
 
         finish();
         return info;
@@ -33,7 +33,7 @@ public class CommonInfoModule extends ModuleImpl<CommonInfo> {
 
     @Override
     public boolean doYouLikeIt(Tag tag) {
-        return "div".equals(tag.name) && "dropdown-user".equals(tag.get("class"));
+        return "header".equals(tag.name) && "banner".equals(tag.get("role"));
     }
 
 

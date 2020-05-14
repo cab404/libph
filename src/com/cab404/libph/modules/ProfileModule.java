@@ -29,9 +29,9 @@ public class ProfileModule extends ModuleImpl<Profile> {
         }
 
         try {
-            data.login = page.xPathStr("div&class=profile/h2&itemprop=nickname").trim();
+            data.login = page.xPathStr("div/div&class=profile/h2&itemprop=nickname/button").trim();
 
-            data.name = page.xPathStr("div&class=profile/p&itemprop=name");
+            data.name = page.xPathStr("div/div&class=profile/p&itemprop=name");
             data.name = data.name == null ? "" : SU.deEntity(data.name);
 
         } catch (Exception e) {
@@ -39,14 +39,14 @@ public class ProfileModule extends ModuleImpl<Profile> {
         }
 
         {
-            data.about = page.xPathStr("div&class=*about/div&class=text");
-            data.big_icon = page.xPathUnique("img&itemprop=photo&alt=avatar").get("src");
+            data.about = page.xPathStr("div/div&class=*about/div&class=text");
+            data.big_icon = page.xPathFirstTag("div/div&class=*about/div&class=avatar/img").get("src");
             data.fillImages();
         }
 
         {
-            List<Tag> keys = page.xPath("div&class=wrapper/div&class=*left/ul/li/span");
-            List<Tag> values = page.xPath("div&class=wrapper/div&class=*left/ul/li/strong");
+            List<Tag> keys = page.xPath("div/div/div&class=*-left/ul/li/span");
+            List<Tag> values = page.xPath("div/div/div&class=*-left/ul/li/strong");
             for (int i = 0; i < keys.size(); i++) {
                 String key = SU.sub(page.getContents(keys.get(i)), "", ":");
                 String value = page.getContents(values.get(i));
@@ -62,7 +62,7 @@ public class ProfileModule extends ModuleImpl<Profile> {
                 );
             }
 
-            List<Tag> friends = page.xPath("div&class=wrapper/div&class=*left/ul&class=user-list-avatar/li/a");
+            List<Tag> friends = page.xPath("div/div/div&class=*-left/ul&class=user-list-avatar/li/a");
             for (Tag tag : friends) {
                 Profile friend = new Profile();
                 friend.login = SU.sub(tag.get("href"), "profile/", "/");
@@ -74,7 +74,7 @@ public class ProfileModule extends ModuleImpl<Profile> {
         }
 
         {
-            List<Tag> liList = page.xPath("div&class=wrapper/div&class=*right/ul/li");
+            List<Tag> liList = page.xPath("div/div/div&class=*right/ul/li");
             for (Tag tag : liList) {
                 String foo = page.getContents(tag);
                 // Да, довольно криво, но так быстрее.

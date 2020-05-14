@@ -49,7 +49,7 @@ public class BasePage extends Page {
 
     @Override
     public String getURL() {
-        return "/error";
+        return "/search";
     }
 
     private AccessProfile profile;

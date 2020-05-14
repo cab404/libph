@@ -13,11 +13,9 @@ public class ErrorModule extends ModuleImpl<PHErr> {
 
     @Override
     public PHErr extractData(HTMLTree page, AccessProfile profile) {
-        String err_msg = page.xPathStr("h2/span");
+        String err_img = page.xPathFirstTag("div&class=content-error/img").get("src");
 
-        if (err_msg == null) return null;
-
-        if ("404".equals(err_msg)) return PHErr.NOT_FOUND;
+       if(err_img.contains("404")) return PHErr.NOT_FOUND;
 
         return PHErr.UNKNOWN;
     }
