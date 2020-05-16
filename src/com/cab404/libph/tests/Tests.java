@@ -18,6 +18,7 @@ public class Tests {
         ArrayList<Class<? extends Test>> tests = new ArrayList<>();
 
         tests.add(LoginTest.class);
+        tests.add(SmilepackTest.class);
         tests.add(ProfileTest.class);
         tests.add(CommentListTest.class);
         tests.add(TopicTest.class);
