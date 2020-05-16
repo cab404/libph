@@ -19,6 +19,7 @@ public class BlogTest extends Test {
         assertNonNull("Описание", blogPage.blog.about);
         assertEquals("URL", "Ponyhawks", blogPage.blog.url_name);
         assertEquals("Закрытость", false, blogPage.blog.restricted);
+        assertEquals("Id", 5, blogPage.blog.id);
 
     }
 

@@ -52,8 +52,13 @@ public class TopicModule extends ModuleImpl<Topic> {
     public Topic extractData(HTMLTree page, AccessProfile profile) {
 
         Topic label = new Topic();
-        label.text = page.xPathStr("div&class=*text").trim();
-
+        String text = page.xPathStr("div&class=*text").trim();
+        Tag info = page.xPathFirstTag("div/div&class=information-block");
+        if(info != null) {
+            text = SU.sub(text, "", info.text);
+            label.info_block = page.xPathStr("div/div&class=information-block").trim();
+        }
+        label.text = text;
 
         label.is_poll = page.get(0).props.get("class").contains("topic-type-question");
         if (label.is_poll) {
@@ -70,38 +75,36 @@ public class TopicModule extends ModuleImpl<Topic> {
                     label.pollData.add(new KV<>(SU.removeAllTags(poll.getContents(tag)).trim(), -1));
                 }
             }
-
         }
 
-
         label.title = SU.deEntity(SU.removeAllTags(page.xPathStr("header/h1")).trim()); // Если header в списках - это ещё и ссылка.
-        label.id = U.parseInt(SU.bsub(page.xPathFirstTag("footer/div&class=topic-share").get("id"), "share_", ""));
+        label.id = U.parseInt(SU.bsub(page.xPathFirstTag("footer/ul/li&class=topic-info-favourite/a").get("id"), "topic_", ""));
 
-        Tag blog = page.xPathFirstTag("header/div/a&class=topic-blog*");
+        Tag blog = page.xPathFirstTag("header/div&class=topic-info/a");
         label.blog.url_name = blog.get("href").contains("/blog/") ? SU.bsub(blog.get("href"), "/blog/", "/") : null;
         label.blog.name = page.getContents(blog);
 
-        label.date = LS.parseSQLDate(page.xPathFirstTag("footer/ul/li/time").get("datetime"));
+        label.date = LS.parseSQLDate(page.xPathFirstTag("header/div&class=topic-info/time").get("datetime"));
 
         label.author = new Profile();
-        label.author.login = page.xPathStr("footer/ul/li/a&rel=author");
+        label.author.login = page.xPathStr("footer/ul/div/a&rel=author");
 
-        if (page.xPathFirstTag("footer/ul/li/a/img") != null) {
-            label.author.small_icon = page.xPathFirstTag("footer/ul/li/a/img").get("src");
+        if (page.xPathFirstTag("footer/ul/div/a/img") != null) {
+            label.author.small_icon = page.xPathFirstTag("footer/ul/div/a/img").get("src");
             label.author.fillImages();
         } else
             label.author.is_system = true;
 
         if (mode != Mode.LETTER) {
-            for (Tag tag : page.xPath("footer/ul&class=topic-tags*/li/a&rel=tag"))
+            for (Tag tag : page.xPath("header/ul&class=topic-tags*/li/a&rel=tag"))
                 label.tags.add(page.getContents(tag));
         }
 
         label.in_favourites = page.getTagByID("fav_topic_*").get("class").contains("active");
 
         if (mode == Mode.LIST) {
-            label.comments = U.parseInt(page.xPathStr("footer/ul/li&class=topic-info-comments/a/span"));
-            String new_comments = page.xPathStr("footer/ul/li&class=topic-info-comments/a/span&class=count");
+            label.comments = U.parseInt(page.xPathStr("footer/ul/li&class=topic-info-count/a/span"));
+            String new_comments = page.xPathStr("footer/ul/li&class=topic-info-count/a/span&class=count");
             label.comments_new = new_comments == null ? 0 : U.parseInt(new_comments);
         }
 

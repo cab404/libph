@@ -19,9 +19,11 @@ public class LSKeyModule extends ModuleImpl<String> {
         if (!js.contains("LIVESTREET_SECURITY_KEY")) return null;
         finish();
 
-        if (!js.contains("LIVESTREET_SECURITY_KEY "))
-            return SU.sub(js, "LIVESTREET_SECURITY_KEY='", "';");
-        return SU.sub(js, "LIVESTREET_SECURITY_KEY = '", "';");
+        if (js.contains("LIVESTREET_SECURITY_KEY "))
+            return SU.sub(js, "LIVESTREET_SECURITY_KEY = '", "';");
+        if (js.contains("LIVESTREET_SECURITY_KEY\t"))
+            return SU.sub(js, "LIVESTREET_SECURITY_KEY\t= '", "';");
+        return SU.sub(js, "LIVESTREET_SECURITY_KEY='", "';");
     }
 
 

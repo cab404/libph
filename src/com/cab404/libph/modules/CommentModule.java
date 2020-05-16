@@ -35,6 +35,7 @@ public class CommentModule extends ModuleImpl<Comment> {
         }
 
         Tag info_block = page.xPathFirstTag("ul&class=comment-info");
+        Tag bottom_block = page.xPathFirstTag("div&class=comment-bottom");
 
         if (info_block == null) {
 
@@ -44,6 +45,7 @@ public class CommentModule extends ModuleImpl<Comment> {
         } else {
 
             HTMLTree info = page.getTree(info_block);
+            HTMLTree bottom = page.getTree(bottom_block);
 
             comment.id = Integer.parseInt(SU.split(info.xPathUnique("a&href=*#comment*").get("href"), "#comment").get(1));
 
@@ -57,22 +59,22 @@ public class CommentModule extends ModuleImpl<Comment> {
             {
                 comment.author.login = SU.sub(info.xPathUnique("a&href=*profile/*/").get("href"), "profile/", "/");
             }
-            if (info.xPathFirstTag("li/img&alt=avatar") == null)
+            if (bottom.xPathFirstTag("div/img&class=comment-avatar") == null)
                 comment.author.is_system = true;
             else {
-                comment.author.small_icon = info.xPathFirstTag("li/img&alt=avatar").get("src");
+                comment.author.small_icon = bottom.xPathFirstTag("div/img&class=comment-avatar").get("src");
                 comment.author.fillImages();
             }
 
             comment.is_new = page.get(0).get("class").contains("comment-new");
 
-            // т.к. у ip (для админов) тоже тэг time, то сначала найдем нужный нам time
-            Tag date_tag = info.xPathFirstTag("li&class=comment-date");
-            HTMLTree date_info = info.getTree(date_tag);
-            comment.date = LS.parseSQLDate(date_info.xPathFirstTag("li/time").get("datetime"));
+            Tag ip = bottom.xPathFirstTag("div&class=comment-date/a");
+            if(ip != null)
+                comment.ip = page.getContents(ip);
+            comment.date = LS.parseSQLDate(bottom.xPathFirstTag("div&class=comment-date/time").get("datetime"));
 
             if (type != Mode.LETTER) {
-                Tag favs = info.xPathFirstTag("li/div&class=favourite*");
+                Tag favs = info.xPathFirstTag("li/class=comment-favourite*");
                 comment.in_favs = favs != null && favs.get("class").contains("active");
             }
         }

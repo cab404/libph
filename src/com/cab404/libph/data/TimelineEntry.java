@@ -1,5 +1,7 @@
 package com.cab404.libph.data;
 
+import java.util.Calendar;
+
 /**
  * Лента.
  *
@@ -7,10 +9,14 @@ package com.cab404.libph.data;
  */
 public class TimelineEntry {
 
-    public Profile commenter;
+    public String commenter_login;
 
-    public Topic topic;
+    public String topic_title;
 
     public int comment_id;
+
+    public String comment_preview;
+
+    public Calendar comment_date;
 
 }

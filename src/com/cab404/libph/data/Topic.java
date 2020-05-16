@@ -11,23 +11,20 @@ import java.util.List;
 public class Topic {
     private static final long serialVersionUID = 0L;
 
-
     public String title;
 
     public Profile author;
 
     public Blog blog;
 
-
     public String text;
+    public String info_block;
 
     public List<String> tags;
-
 
     public Calendar date;
 
     public int id;
-
 
     public boolean in_favourites = false;
 

@@ -23,7 +23,10 @@ public class StreamItemModule extends ModuleImpl<StreamItem> {
                 item.type = type;
                 break;
             }
-        if (item.type == null) System.err.println("UNKNOWM ITEM CLASS: " + clazz);
+        if (item.type == null){
+            System.err.println("UNKNOWN ITEM CLASS: " + clazz);
+            return null;
+        }
 
         item.user = new Profile();
         item.user.login = page.xPathStr("p/a/strong");
@@ -42,11 +45,15 @@ public class StreamItemModule extends ModuleImpl<StreamItem> {
 
         item.date = page.xPathFirstTag("p/span").get("title");
 
+        Tag comment = page.xPathFirstTag("div&class=stream-comment-preview");
+        if(comment != null)
+            item.more_data = page.xPathStr("div&class=stream-comment-preview");
+
         return item;
     }
 
     @Override
     public boolean doYouLikeIt(Tag tag) {
-        return "li".equals(tag.name) && tag.get("class").contains("stream-item");
+        return "li".equals(tag.name) && tag.get("class").contains("stream-item-type");
     }
 }

@@ -44,12 +44,20 @@ public class BasePage extends Page {
 
     @Override
     protected void onResponseGain(HttpResponse response) {
+        if(response.getStatusLine().getStatusCode() == 301){
+            String to = response.getFirstHeader("Location").getValue();
+            if(to.startsWith("//")) {
+                to = "https:" + to;
+                response.removeHeaders("Location");
+                response.addHeader("Location", to);
+            }
+        }
         super.onResponseGain(response);
     }
 
     @Override
     public String getURL() {
-        return "/error";
+        return "/search";
     }
 
     private AccessProfile profile;

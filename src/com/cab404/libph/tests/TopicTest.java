@@ -20,12 +20,15 @@ public class TopicTest extends Test {
         topicPage.fetch(profile);
 
         // Не применимо
-//        assertLessOrEquals("Все комментарии загружены", topicPage.header.comments, topicPage.comments.size());
-        assertEquals("Время создания", topicPage.header.date.getTimeInMillis(), 1361028648000L);
+        //assertLessOrEquals("Все комментарии загружены", topicPage.header.comments, topicPage.comments.size());
+        //assertEquals("Время создания", topicPage.header.date.getTimeInMillis(), 1361028648000L);
         assertEquals("Имя блога", topicPage.header.blog.name, "dev");
         assertEquals("URL-имя блога", topicPage.header.blog.url_name, "dev");
         assertEquals("Название поста", topicPage.header.title, "Тестовый топик [Ponyhawks]");
         assertEquals("Автор", topicPage.header.author.login, "System Pony");
+        assertEquals("Аватар автора", topicPage.header.author.small_icon, null);
+        assertEquals("Комментарии закрыты", topicPage.comments_enabled, false);
+        assertEquals("Инфоблок", topicPage.header.info_block,null);
 
         topicPage = new TopicPage(282);
         topicPage.fetch(profile);
@@ -35,11 +38,26 @@ public class TopicTest extends Test {
         assertEquals("URL-имя блога", topicPage.header.blog.url_name, "Ponyhawks");
         assertEquals("Название поста", topicPage.header.title, "Двести двадцать первый немного припозднившийся чат Полуночников [Ponyhawks]");
         assertEquals("Автор", topicPage.header.author.login, "Grave_Hunter");
+        assertNonNull("Аватар автора", topicPage.header.author.small_icon);
+        assertEquals("Комментарии закрыты", topicPage.comments_enabled, false);
+        assertNonNull("Инфоблок", topicPage.header.info_block);
 
         RefreshCommentsRequest request = new RefreshCommentsRequest(Type.TOPIC, 282, 0);
         request.exec(profile);
         assertLess("Refresh", 0, request.comments.size());
 
+        topicPage = new TopicPage(1516);
+        topicPage.fetch(profile);
+
+        assertLessOrEquals("Все комментарии загружены", topicPage.header.comments, topicPage.comments.size());
+        assertEquals("Имя блога", topicPage.header.blog.name, "dev");
+        assertEquals("URL-имя блога", topicPage.header.blog.url_name, "dev");
+        assertEquals("Название поста", topicPage.header.title, "Опрос для пользователей клиента на андроид: какая у вас версия?");
+        assertEquals("Автор", topicPage.header.author.login, "Fiores");
+        assertEquals("Опрос", topicPage.header.is_poll, true);
+        assertEquals("Опрос завершен", topicPage.header.is_pollFinished, true);
+        assertEquals("Варианты ответов", topicPage.header.pollData.size(), 3);
+        assertEquals("Комментарии закрыты", topicPage.comments_enabled, false);
 
         // Polls are hard to test .-.
 //        topicPage = new TopicPage(1537);

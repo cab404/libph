@@ -17,13 +17,13 @@ public class Comment {
 
     public boolean deleted = false;
 
-
     public boolean is_new = false;
 
     public boolean in_favs = false;
 
-
     public Calendar date;
+
+    public String ip = "";
 
     public int id;
 

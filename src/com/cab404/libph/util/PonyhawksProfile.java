@@ -20,7 +20,11 @@ public class PonyhawksProfile extends AccessProfile {
         public void show(JSONObject parsed) {
         }
     };
-    private HttpHost host = new HttpHost("ponyhawks.ru", 443, "https");
+
+    private HttpHost host;
+    private static String hostname = "ponyhawks.ru";
+    private static int port = 443;
+    private static String scheme = "https";
 
     public MessageListener getMessageListener() {
         return messageListener;
@@ -31,8 +35,13 @@ public class PonyhawksProfile extends AccessProfile {
     }
 
     public PonyhawksProfile() {
+        this(hostname, port, scheme);
+    }
+
+    public PonyhawksProfile(String hostname, int port, String scheme) {
         cookies.put("CHECK", "0");
         cookies.put("path", "/");
+        host = new HttpHost(hostname, port, scheme);
     }
 
     @Override
