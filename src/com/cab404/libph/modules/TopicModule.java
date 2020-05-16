@@ -52,8 +52,13 @@ public class TopicModule extends ModuleImpl<Topic> {
     public Topic extractData(HTMLTree page, AccessProfile profile) {
 
         Topic label = new Topic();
-        label.text = page.xPathStr("div&class=*text").trim();
-
+        String text = page.xPathStr("div&class=*text").trim();
+        Tag info = page.xPathFirstTag("div/div&class=information-block");
+        if(info != null) {
+            text = SU.sub(text, "", info.text);
+            label.info_block = page.xPathStr("div/div&class=information-block").trim();
+        }
+        label.text = text;
 
         label.is_poll = page.get(0).props.get("class").contains("topic-type-question");
         if (label.is_poll) {
@@ -70,9 +75,7 @@ public class TopicModule extends ModuleImpl<Topic> {
                     label.pollData.add(new KV<>(SU.removeAllTags(poll.getContents(tag)).trim(), -1));
                 }
             }
-
         }
-
 
         label.title = SU.deEntity(SU.removeAllTags(page.xPathStr("header/h1")).trim()); // Если header в списках - это ещё и ссылка.
         label.id = U.parseInt(SU.bsub(page.xPathFirstTag("footer/ul/li&class=topic-info-favourite/a").get("id"), "topic_", ""));
