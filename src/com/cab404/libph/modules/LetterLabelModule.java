@@ -16,42 +16,42 @@ public class LetterLabelModule extends ModuleImpl<LetterLabel> {
 
     @Override
     public LetterLabel extractData(HTMLTree page, AccessProfile profile) {
-
-        String title = page.xPathStr("td/a&class=js-title-talk");
-        // Пропускаем заголовок списка.
-        if (title == null) return null;
-
         LetterLabel letter = new LetterLabel();
 
-        for (Tag user : page.xPath("td/a&class=*user*")) {
+        for (Tag user : page.xPath("span&class=recipients/a&class=user")) {
             letter.recipients.add(page.getContents(user));
         }
 
-        letter.title = SU.deEntity(title);
-        letter.text = page.xPathFirstTag("td/a&class=js-title-talk").get("title");
-        String destronged_title = SU.removeAllTags(SU.deEntity(letter.title));
+        letter.title = page.xPathStr("a&class=js-title-talk*/span");
+        letter.text = page.xPathFirstTag("a&class=js-title-talk*").get("title");
 
-        // Если в заголовке были теги strong, значит, письмо новое. Других способов не нашел.
-        letter.is_new = !destronged_title.equals(letter.title);
-        letter.title = destronged_title;
+        if(letter.title == null) {
+            letter.is_new = true;
+            letter.title =  page.xPathStr("a&class=js-title-talk*/strong");
+        }
 
-        letter.id = U.parseInt(SU.bsub(page.xPathFirstTag("td/a&class=js-title-talk").get("href"), "read/", "/"));
+        letter.id = U.parseInt(SU.bsub(page.xPathFirstTag("a&class=js-title-talk*").get("href"), "read/", "/"));
 
-        String comments = page.xPathStr("td/span");
-        letter.comments = comments == null ? 0 : U.parseInt(comments);
-        letter.date = LS.parseDate(page.xPathStr("td&class=cell-date*"));
+        String comments = null;
+        for(Tag span : page.xPath("span")) {
+            if (span.get("class") == "") {
+                comments = page.getContents(span);
+                letter.comments = comments == null ? 0 : U.parseInt(comments);
+            }
+        }
+
+        letter.date = LS.parseDate(page.xPathStr("span&class=date"));
 
         if (comments == null) return letter;
 
-        comments = page.xPathStr("td/span&class=new");
+        comments = page.xPathStr("span&class=new");
         letter.comments_new = comments == null ? 0 : U.parseInt(comments);
-
 
         return letter;
     }
 
     @Override
     public boolean doYouLikeIt(Tag tag) {
-        return "tr".equals(tag.name);
+        return "div".equals(tag.name) && tag.get("class").equals("talk-item");
     }
 }
